@@ -8,6 +8,18 @@ require_once ('src/jpgraph_utils.inc.php');
 $datay = array(90.5,30,25,15,6);
 $datax = array(300,150,280,230,180);
 
+/*asort($datay);
+asort($datax);*/
+
+var_export($datax);
+
+for($x=0; $x < count($datay); $x++) {
+	var_export($datax[$x])." ";
+    $datay[$x] = (349.62587412586959 + (-3.3730944055943635 * $datax[$x]) + (0.0081939999999999999 * (pow($datax[$x],2))));
+}
+
+exit();
+
 $theme_class = new UniversalTheme;
 $graph = new Graph(460, 585);
 
@@ -15,7 +27,7 @@ $graph->SetScale('linlin');
 $graph->title->Set("Polynomial TrendLine");
 $graph->title->SetFont(FF_ARIAL, FS_BOLD, 14);
 
-$reg = new PolynomialRegression(4);
+$reg = new PolynomialRegression(2);
 
 foreach ($datax as $k => $v){
     $reg->addData($datax[$k], $datay[$k]);
@@ -48,6 +60,8 @@ $lplot->SetWeight(2);
 $lplot->SetColor('#CD0000');
 $lplot->SetLegend('Regression Line');
 $graph->Add($lplot);
+
+exit(var_export($reg->getCoefficients()));
 
 // ... and stroke
 $graph->Stroke();
